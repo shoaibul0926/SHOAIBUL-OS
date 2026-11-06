@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shoaibul-OS — Test Cases</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f4f5f8;
+    color: #1d1f23;
+    padding: 24px 16px 60px;
+  }
+  h1 { text-align: center; margin: 0 0 4px; font-size: 1.6em; font-weight: 800; }
+  p.sub { text-align: center; color: #767b9c; margin: 0 0 24px; font-size: 0.92em; }
+
+  .cases {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    max-width: 1060px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .case-btn {
+    border: 1.5px solid #d8dae8;
+    background: #fff;
+    color: #41465f;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 0.8em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .case-btn:hover { border-color: #9b87d9; color: #4a3580; }
+  .case-btn.active { background: #2e2458; border-color: #2e2458; color: #fff; }
+
+  .status {
+    text-align: center;
+    min-height: 22px;
+    font-size: 0.86em;
+    font-weight: 700;
+    color: #4a3580;
+    margin-bottom: 14px;
+    padding: 0 20px;
+  }
+
+  .stage {
+    position: relative;
+    max-width: 1060px;
+    height: 580px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid #e6e7ee;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(30,40,80,0.06);
+  }
+
+  .node {
+    position: absolute;
+    border-radius: 10px;
+    border: 1.5px solid;
+    font-size: 0.76em;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6px 8px;
+    line-height: 1.25;
+    transition: all 0.25s;
+    opacity: 0.5;
+  }
+  .node.lit { opacity: 1; transform: scale(1.04); box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+
+  .acct { background: #eaf2ff; border-color: #6f9ceb; color: #17315c; }
+  .agent { background: #f3f0ff; border-color: #9b87d9; color: #2e2458; }
+  .gate { background: #fff4e5; border-color: #e0a339; color: #5c3b00; }
+  .sink { background: #e9f7ef; border-color: #59b37c; color: #1a4d33; }
+  .direct { background: #eef0fb; border-color: #8a8fc9; color: #4c4f80; }
+  .blocked { background: #fdecec; border-color: #e08080; color: #6b1a1a; }
+
+  svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+  .edge { stroke: #d6d9ea; stroke-width: 2; fill: none; transition: all 0.25s; }
+  .edge.lit { stroke: #6f6fe0; stroke-width: 3; }
+  marker#arrow path, marker#arrowLit path { fill: #d6d9ea; }
+</style>
+</head>
+<body>
+
+<h1>Shoaibul-OS — Test Cases</h1>
+<p class="sub">Every documented flow through the brain — pick one, the path lights up one arrow at a time</p>
+
+<div class="cases">
+  <button class="case-btn" data-case="0">Meeting invite arrives</button>
+  <button class="case-btn" data-case="1">StepAhead thank-you</button>
+  <button class="case-btn" data-case="2">Cold inbound, with doc</button>
+  <button class="case-btn" data-case="3">Cold inbound, no doc</button>
+  <button class="case-btn" data-case="4">Switch to work mode</button>
+  <button class="case-btn" data-case="5">Open a known file</button>
+  <button class="case-btn" data-case="6">Repo status + email</button>
+  <button class="case-btn" data-case="7">Daily brief</button>
+  <button class="case-btn" data-case="8">Unapproved send (blocked)</button>
+</div>
+<div class="status" id="status">Pick a test case above to play it through</div>
+
+<div class="stage" id="stage">
+  <svg id="svg">
+    <defs>
+      <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+        <path d="M0,0 L8,4 L0,8 Z"></path>
+      </marker>
+      <marker id="arrowLit" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+        <path d="M0,0 L8,4 L0,8 Z" fill="#6f6fe0"></path>
+      </marker>
+    </defs>
+  </svg>
+
+  <div class="node acct" id="n-user" style="left:430px; top:16px; width:180px; height:44px;">User inputs</div>
+  <div class="node agent" id="n-brain" style="left:415px; top:92px; width:210px; height:52px; background:#eef0fb; border-color:#6f9ceb; color:#17315c;">Brain<br><span style="font-weight:500;font-size:0.88em;">picks the right path</span></div>
+
+  <div class="node direct" id="n-mode" style="left:10px; top:100px; width:160px; height:40px;">Mode switch (direct)</div>
+  <div class="node direct" id="n-open" style="left:870px; top:100px; width:160px; height:40px;">Known open (direct)</div>
+
+  <div class="node agent" id="n-inbox" style="left:20px; top:200px; width:135px; height:64px;">Inbox</div>
+  <div class="node agent" id="n-cal" style="left:170px; top:200px; width:135px; height:64px;">Calendar</div>
+  <div class="node agent" id="n-docs" style="left:320px; top:200px; width:135px; height:64px;">Docs Analyst</div>
+  <div class="node agent" id="n-pitch" style="left:470px; top:200px; width:135px; height:64px;">StepAhead Pitch</div>
+  <div class="node agent" id="n-eng" style="left:620px; top:200px; width:135px; height:64px;">Engineering</div>
+  <div class="node agent" id="n-brief" style="left:770px; top:200px; width:135px; height:64px;">Briefing</div>
+
+  <div class="node gate" id="n-gate" style="left:415px; top:340px; width:210px; height:56px;">Gatekeeper</div>
+
+  <div class="node sink" id="n-report" style="left:10px; top:470px; width:190px; height:58px;">Report posted to you</div>
+  <div class="node sink" id="n-draft" style="left:230px; top:470px; width:190px; height:58px;">Draft &rarr; you review &amp; send</div>
+  <div class="node sink" id="n-sent" style="left:450px; top:470px; width:190px; height:58px;">Sent automatically</div>
+  <div class="node blocked" id="n-blocked" style="left:670px; top:470px; width:220px; height:58px;">Blocked &mdash; needs approval</div>
+</div>
+
+<script>
+const edgesDef = {
+  "user-brain":  [520, 60,  520, 92],
+  "brain-mode":  [430, 110, 170, 120],
+  "brain-open":  [610, 110, 870, 120],
+  "brain-inbox": [470, 144, 87,  200],
+  "brain-cal":   [490, 144, 237, 200],
+  "brain-docs":  [505, 144, 387, 200],
+  "brain-pitch": [520, 144, 537, 200],
+  "brain-eng":   [535, 144, 687, 200],
+  "brain-brief": [550, 144, 837, 200],
+  "docs-inbox":  [320, 232, 155, 232],
+  "inbox-gate":  [100, 264, 460, 340],
+  "cal-gate":    [250, 264, 480, 340],
+  "pitch-gate":  [537, 264, 537, 340],
+  "eng-gate":    [687, 264, 580, 340],
+  "brief-report":[800, 264, 200, 470],
+  "gate-draft":  [480, 396, 325, 470],
+  "gate-sent":   [560, 396, 545, 470],
+  "gate-blocked":[600, 396, 780, 470],
+};
+
+const svg = document.getElementById("svg");
+Object.entries(edgesDef).forEach(([id, [x1,y1,x2,y2]]) => {
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  const mx = (x1+x2)/2, my = (y1+y2)/2;
+  path.setAttribute("d", `M${x1},${y1} Q${mx},${my} ${x2},${y2}`);
+  path.setAttribute("class", "edge");
+  path.setAttribute("id", "e-" + id);
+  path.setAttribute("marker-end", "url(#arrow)");
+  svg.appendChild(path);
+});
+
+const cases = [
+  {
+    label: "Meeting invite arrives on your calendar",
+    nodes: ["n-user","n-brain","n-cal","n-gate","n-sent"],
+    edges: ["e-user-brain","e-brain-cal","e-cal-gate","e-gate-sent"],
+    outcome: "Gatekeeper lets this one through automatically — agenda/nudge/recap is the one pre-approved auto-send."
+  },
+  {
+    label: "Draft a StepAhead client thank-you",
+    nodes: ["n-user","n-brain","n-pitch","n-gate","n-draft"],
+    edges: ["e-user-brain","e-brain-pitch","e-pitch-gate","e-gate-draft"],
+    outcome: "Gatekeeper blocks the real send by default — draft lands in Gmail for you to send."
+  },
+  {
+    label: "Cold inbound email with an attached doc",
+    nodes: ["n-user","n-brain","n-docs","n-inbox","n-gate","n-draft"],
+    edges: ["e-user-brain","e-brain-docs","e-docs-inbox","e-inbox-gate","e-gate-draft"],
+    outcome: "Docs Analyst summarizes first, hands off to Inbox, which drafts — you send."
+  },
+  {
+    label: "Cold inbound email, nothing attached",
+    nodes: ["n-user","n-brain","n-inbox","n-gate","n-draft"],
+    edges: ["e-user-brain","e-brain-inbox","e-inbox-gate","e-gate-draft"],
+    outcome: "No doc to summarize, so Inbox drafts straight away — you send."
+  },
+  {
+    label: "\"Switch to work mode\"",
+    nodes: ["n-user","n-brain","n-mode"],
+    edges: ["e-user-brain","e-brain-mode"],
+    outcome: "No agent dispatched, no Gatekeeper involved — just repoints which account subsequent actions use."
+  },
+  {
+    label: "\"Open the deck\" / known file or link",
+    nodes: ["n-user","n-brain","n-open"],
+    edges: ["e-user-brain","e-brain-open"],
+    outcome: "Pure local navigation — opens immediately, no agent, no Gatekeeper, no report needed."
+  },
+  {
+    label: "Repo status check + email update",
+    nodes: ["n-user","n-brain","n-eng","n-gate","n-draft"],
+    edges: ["e-user-brain","e-brain-eng","e-eng-gate","e-gate-draft"],
+    outcome: "Engineering can edit/commit/push itself, but a real send still goes through the Gatekeeper like everyone else."
+  },
+  {
+    label: "Morning daily brief",
+    nodes: ["n-user","n-brain","n-brief","n-report"],
+    edges: ["e-user-brain","e-brain-brief","e-brief-report"],
+    outcome: "Briefing never sends or deletes anything — just posts one rollup message, no Gatekeeper needed."
+  },
+  {
+    label: "An agent tries a real send without approval",
+    nodes: ["n-user","n-brain","n-pitch","n-gate","n-blocked"],
+    edges: ["e-user-brain","e-brain-pitch","e-pitch-gate","e-gate-blocked"],
+    outcome: "Blocked by default. Needs a one-time approval marker, written only after you say yes in chat."
+  },
+];
+
+let timers = [];
+function reset() {
+  timers.forEach(t => clearTimeout(t));
+  timers = [];
+  document.querySelectorAll(".node").forEach(n => n.classList.remove("lit"));
+  document.querySelectorAll(".edge").forEach(e => {
+    e.classList.remove("lit");
+    e.setAttribute("marker-end", "url(#arrow)");
+  });
+}
+
+function playCase(idx) {
+  reset();
+  document.querySelectorAll(".case-btn").forEach(b => b.classList.remove("active"));
+  document.querySelector(`.case-btn[data-case="${idx}"]`).classList.add("active");
+
+  const c = cases[idx];
+  const statusEl = document.getElementById("status");
+  statusEl.textContent = c.label;
+
+  document.getElementById(c.nodes[0]).classList.add("lit");
+
+  c.edges.forEach((edgeId, i) => {
+    timers.push(setTimeout(() => {
+      const edge = document.getElementById(edgeId);
+      edge.classList.add("lit");
+      edge.setAttribute("marker-end", "url(#arrowLit)");
+      document.getElementById(c.nodes[i+1]).classList.add("lit");
+      if (i === c.edges.length - 1) {
+        statusEl.textContent = c.label + " — " + c.outcome;
+      }
+    }, (i+1) * 650));
+  });
+}
+
+document.querySelectorAll(".case-btn").forEach(btn => {
+  btn.addEventListener("click", () => playCase(parseInt(btn.dataset.case)));
+});
+</script>
+</body>
+</html>

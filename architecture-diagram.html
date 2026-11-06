@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shoaibul-OS — Architecture</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background:
+      radial-gradient(circle at 1px 1px, #e4e7f2 1px, transparent 0) 0 0 / 22px 22px,
+      linear-gradient(180deg, #eef1fb 0%, #f7f8fb 320px, #f7f8fb 100%);
+    padding: 46px 16px 70px;
+    color: #1d1f23;
+  }
+  .kicker {
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.72em;
+    font-weight: 700;
+    color: #8b93c4;
+    margin-bottom: 10px;
+  }
+  .badge {
+    display: block;
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 16px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #6f9ceb, #2e2458);
+    box-shadow: 0 10px 24px rgba(46,36,88,0.28);
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.15em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: -0.03em;
+  }
+  h1 {
+    text-align: center;
+    font-size: 2.2em;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin: 0 0 8px;
+    background: linear-gradient(90deg, #2e2458, #4c6fcf 55%, #6f9ceb);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  p.sub {
+    text-align: center;
+    color: #6b7190;
+    margin: 0 0 40px;
+    font-size: 0.98em;
+  }
+  p.sub .arrow { color: #9b87d9; font-weight: 700; }
+  .diagram-wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #e9e9f2;
+    border-radius: 20px;
+    padding: 36px 30px;
+    box-shadow:
+      0 1px 2px rgba(30,40,80,0.04),
+      0 18px 40px -12px rgba(30,40,80,0.16);
+    position: relative;
+    overflow: hidden;
+  }
+  .diagram-wrap::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #6f9ceb, #9b87d9 35%, #e0a339 68%, #59b37c);
+  }
+  .mermaid { text-align: center; }
+  .mermaid svg { filter: drop-shadow(0 3px 8px rgba(30,40,80,0.06)); }
+  .legend {
+    max-width: fit-content;
+    margin: 28px auto 0;
+    font-size: 0.86em;
+    font-weight: 600;
+    color: #4a4f6b;
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 12px 22px;
+    background: #ffffff;
+    border: 1px solid #e9e9f2;
+    border-radius: 999px;
+    box-shadow: 0 6px 16px rgba(30,40,80,0.06);
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; box-shadow: 0 0 0 3px rgba(0,0,0,0.03); }
+  footer {
+    text-align: center;
+    margin-top: 28px;
+    font-size: 0.78em;
+    color: #a2a7c4;
+    letter-spacing: 0.02em;
+  }
+</style>
+</head>
+<body>
+
+<div class="badge">SOS</div>
+<div class="kicker">Architecture</div>
+<h1>Shoaibul-OS</h1>
+<p class="sub">Account <span class="arrow">&rarr;</span> Brain <span class="arrow">&rarr;</span> Agent <span class="arrow">&rarr;</span> Gatekeeper <span class="arrow">&rarr;</span> You</p>
+
+<div class="diagram-wrap">
+<pre class="mermaid">
+graph TB
+  A1["User inputs"]
+
+  A1 --> BRAIN
+
+  BRAIN(["Brain<br/>picks the right agent"])
+  MEM[("Memory")] -.context.- BRAIN
+
+  INBOX["Inbox<br/>(triages mail by priority,<br/>drafts replies in-voice)"]
+  CAL["Calendar<br/>(accepts invites, drafts<br/>agenda / nudge / recap)"]
+  DOCS["Docs Analyst<br/>(reads &amp; edits Drive,<br/>Docs, Sheets, Slides)"]
+  PITCH["StepAhead Pitch<br/>(drafts pitch &amp;<br/>follow-up email, deck attached)"]
+  ENG["Engineering<br/>(repo status, edits,<br/>commit, push, merge)"]
+  BRIEF["Briefing<br/>(daily calendar +<br/>inbox summary)"]
+
+  BRAIN --> INBOX
+  BRAIN --> CAL
+  BRAIN --> DOCS
+  BRAIN --> PITCH
+  BRAIN --> ENG
+  BRAIN --> BRIEF
+
+  DOCS -.-> INBOX
+  ENG -.-> INBOX
+
+  INBOX --> GATE
+  CAL --> GATE
+  PITCH --> GATE
+  BRIEF --> GATE
+  ENG --> GATE
+
+  GATE{{"Gatekeeper<br/>checks every send"}}
+
+  GATE -->|draft| YOU["You review &amp; send it"]
+  GATE -->|blocked by default| SENT["Sent &mdash; only after<br/>your explicit yes"]
+
+  classDef acct fill:#eaf2ff,stroke:#6f9ceb,color:#17315c,stroke-width:1.5px;
+  classDef agent fill:#f3f0ff,stroke:#9b87d9,color:#2e2458,stroke-width:1.5px;
+  classDef gate fill:#fff4e5,stroke:#e0a339,color:#5c3b00,stroke-width:1.5px;
+  classDef sink fill:#e9f7ef,stroke:#59b37c,color:#1a4d33,stroke-width:1.5px;
+
+  class A1 acct;
+  class INBOX,CAL,DOCS,PITCH,ENG,BRIEF,MEM agent;
+  class GATE gate;
+  class YOU,SENT sink;
+</pre>
+</div>
+
+<div class="legend">
+  <span><span class="dot" style="background:#eaf2ff;border:1px solid #6f9ceb;"></span> Account</span>
+  <span><span class="dot" style="background:#f3f0ff;border:1px solid #9b87d9;"></span> Agent</span>
+  <span><span class="dot" style="background:#fff4e5;border:1px solid #e0a339;"></span> Gatekeeper</span>
+  <span><span class="dot" style="background:#e9f7ef;border:1px solid #59b37c;"></span> Outcome</span>
+</div>
+
+<footer>Shoaibul-OS &middot; personal AI chief of staff</footer>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: "base",
+    themeVariables: {
+      primaryColor: "#f3f0ff",
+      primaryBorderColor: "#9b87d9",
+      primaryTextColor: "#2e2458",
+      lineColor: "#b7c0da",
+      fontFamily: "-apple-system, Segoe UI, Roboto, sans-serif",
+      fontSize: "15px",
+      clusterBkg: "#f8f9fd",
+      clusterBorder: "#e2e5f2"
+    },
+    flowchart: { curve: "linear", nodeSpacing: 46, rankSpacing: 64, padding: 14 }
+  });
+</script>
+</body>
+</html>

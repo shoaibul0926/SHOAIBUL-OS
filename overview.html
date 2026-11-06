@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shoaibul-OS — Overview</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f4f5f8;
+    color: #1d1f23;
+  }
+  header {
+    background: #15171d;
+    color: #fff;
+    padding: 18px 28px;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  header h1 { margin: 0; font-size: 1.5em; font-weight: 800; letter-spacing: -0.01em; }
+  header p { margin: 0; color: #a7acc2; font-size: 0.92em; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    padding: 16px;
+    align-items: start;
+  }
+  .col {
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid #e6e7ee;
+    background: #fff;
+  }
+  .col .step-label {
+    text-transform: uppercase;
+    font-size: 0.68em;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .col h2 { margin: 0 0 6px; font-size: 1.05em; font-weight: 800; line-height: 1.25; }
+  .col .step-sub { font-size: 0.78em; margin: 0 0 14px; line-height: 1.4; }
+
+  .cat { margin-bottom: 14px; }
+  .cat:last-child { margin-bottom: 0; }
+  .cat-label {
+    font-size: 0.72em;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    margin-bottom: 6px;
+  }
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    font-size: 0.8em;
+    line-height: 1.35;
+    margin-bottom: 5px;
+  }
+  .badge {
+    flex: 0 0 auto;
+    width: 15px;
+    height: 15px;
+    border-radius: 4px;
+    font-size: 0.62em;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    margin-top: 1px;
+  }
+
+  .c1 { background: #fbf4e8; border-color: #ecdcbb; }
+  .c1 .step-label { color: #9a7a2e; }
+  .c1 .step-sub { color: #8a7250; }
+  .c1 .cat-label { color: #7a5e23; }
+  .c1 .badge { background: #c99a3d; }
+
+  .c2 { background: #f1f2fa; border-color: #dcdef0; }
+  .c2 .step-label { color: #5b5e8f; }
+  .c2 .step-sub { color: #6c6f93; }
+  .c2 .cat-label { color: #4c4f80; }
+  .c2 .badge { background: #8a8fc9; }
+
+  .c3 { background: #f3f0ff; border-color: #ddd5f7; }
+  .c3 .step-label { color: #6b4fb0; }
+  .c3 .step-sub { color: #7a6a9c; }
+  .c3 .cat-label { color: #4a3580; }
+  .c3 .badge { background: #9b87d9; }
+
+  .c4 { background: #15171d; border-color: #15171d; color: #fff; }
+  .c4 .step-label { color: #e0a339; }
+  .c4 .step-sub { color: #a7acc2; }
+  .c4 .cat-label { color: #f0c878; }
+  .c4 .item { color: #d7d9e4; }
+  .c4 .badge { background: #e0a339; color: #15171d; }
+
+  .c5 { background: #fff; border: 2px solid #59b37c; }
+  .c5 .step-label { color: #2c8054; }
+  .c5 .step-sub { color: #4f6c5c; }
+  .c5 .cat-label { color: #1a4d33; }
+  .c5 .badge { background: #59b37c; }
+
+  .learns {
+    margin: 0 16px 24px;
+    border: 1px solid #e6e7ee;
+    border-radius: 12px;
+    background: #fff;
+    padding: 16px 18px;
+  }
+  .learns h3 {
+    margin: 0 0 12px;
+    font-size: 0.95em;
+    font-weight: 800;
+  }
+  .learns h3 span { color: #8b93c4; font-weight: 600; font-size: 0.85em; margin-left: 6px; }
+  .learns-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+  .learns-col .cat-label { font-size: 0.72em; font-weight: 800; color: #4a4f6b; margin-bottom: 6px; letter-spacing: 0.03em; }
+  .learns-col .item { font-size: 0.8em; color: #41465f; margin-bottom: 4px; }
+
+  @media (max-width: 1100px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .learns-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Shoaibul-OS</h1>
+  <p>How one AI assistant drafts Shoaibul's mail and calendar across three accounts, with him approving every send.</p>
+</header>
+
+<div class="grid">
+
+  <div class="col c1">
+    <div class="step-label">Step 1</div>
+    <h2>Where the data lives</h2>
+    <p class="step-sub">Every place the brain reads from and writes to:</p>
+
+    <div class="cat">
+      <div class="cat-label">ACCOUNTS</div>
+      <div class="item"><span class="badge">G</span> Gmail — ColabGlobal, StepAhead, Personal (one connector live at a time)</div>
+      <div class="item"><span class="badge">C</span> Google Calendar — meetings, invites, RSVPs</div>
+    </div>
+
+    <div class="cat">
+      <div class="cat-label">THE BRAIN'S MEMORY</div>
+      <div class="item"><span class="badge">M</span> MEMORY.md + topic files — people, projects, feedback, decisions</div>
+      <div class="item"><span class="badge">A</span> my-brain-architecture.md — the spec itself</div>
+    </div>
+
+    <div class="cat">
+      <div class="cat-label">WORK AND FILES</div>
+      <div class="item"><span class="badge">D</span> Drive / Docs / Sheets / Slides</div>
+      <div class="item"><span class="badge">GH</span> GitHub repos — status, edit, push, merge</div>
+    </div>
+
+    <div class="cat">
+      <div class="cat-label">CONTACT CHANNELS · reference only</div>
+      <div class="item"><span class="badge">W</span> WhatsApp — number only, not connected</div>
+      <div class="item"><span class="badge">L</span> LinkedIn — profile link only</div>
+      <div class="item"><span class="badge">K</span> Calendly — booking link, tied to Personal Calendar</div>
+    </div>
+  </div>
+
+  <div class="col c2">
+    <div class="step-label">Step 2</div>
+    <h2>The playbooks</h2>
+    <p class="step-sub">Written once in PLAYBOOKS/, followed by every matching request:</p>
+
+    <div class="cat">
+      <div class="cat-label">WHEN SOMETHING LANDS</div>
+      <div class="item"><span class="badge">1</span> Meeting lifecycle — accept &rarr; agenda &rarr; nudge &rarr; recap</div>
+      <div class="item"><span class="badge">2</span> Cold inbound — classify P1/P2/P3, draft reply</div>
+    </div>
+
+    <div class="cat">
+      <div class="cat-label">WHEN ASKED DIRECTLY</div>
+      <div class="item"><span class="badge">3</span> StepAhead thank-you — follow-up + deck attached</div>
+      <div class="item"><span class="badge">4</span> Mode switch — "switch to work mode"</div>
+      <div class="item"><span class="badge">5</span> Known opens — "open the deck" &rarr; fixed target</div>
+    </div>
+
+    <div class="cat">
+      <div class="cat-label">EVERY MORNING</div>
+      <div class="item"><span class="badge">6</span> Daily brief — calendar + inbox rollup</div>
+    </div>
+  </div>
+
+  <div class="col c3">
+    <div class="step-label">Step 3</div>
+    <h2>The agents</h2>
+    <p class="step-sub">Six agents, each with one job, scoped tools only:</p>
+
+    <div class="cat">
+      <div class="cat-label">MAIL</div>
+      <div class="item"><span class="badge">I</span> Inbox — triages by priority, drafts replies in-voice</div>
+      <div class="item"><span class="badge">P</span> StepAhead Pitch — pitch &amp; follow-up email, deck attached</div>
+    </div>
+
+    <div class="cat">
+      <div class="cat-label">CALENDAR</div>
+      <div class="item"><span class="badge">C</span> Calendar &amp; Meetings — accepts invites, drafts agenda/nudge/recap</div>
+    </div>
+
+    <div class="cat">
+      <div class="cat-label">FILES &amp; CODE</div>
+      <div class="item"><span class="badge">D</span> Docs Analyst — reads &amp; edits Drive/Docs/Sheets/Slides</div>
+      <div class="item"><span class="badge">E</span> Engineering — repo status, edits, commit, push, merge</div>
+    </div>
+
+    <div class="cat">
+      <div class="cat-label">ROLLUP</div>
+      <div class="item"><span class="badge">B</span> Briefing — daily calendar + inbox summary</div>
+    </div>
+  </div>
+
+  <div class="col c4">
+    <div class="step-label">Step 4</div>
+    <h2>Safety checks</h2>
+    <p class="step-sub">The Gatekeeper · runs on every tool call:</p>
+
+    <div class="cat">
+      <div class="cat-label">EVERY SEND</div>
+      <div class="item"><span class="badge">&#10003;</span> Draft by default, you send</div>
+      <div class="item"><span class="badge">&#10003;</span> Meeting logistics are the only auto-send</div>
+      <div class="item"><span class="badge">&#10003;</span> Real send blocked without a one-time approval marker</div>
+    </div>
+
+    <div class="cat">
+      <div class="cat-label">EVERY SAVE</div>
+      <div class="item"><span class="badge">&#10003;</span> No secrets committed</div>
+      <div class="item"><span class="badge">&#10003;</span> runs/ gitignored, never tracked</div>
+    </div>
+
+    <div class="cat">
+      <div class="cat-label">EVERY ACTION</div>
+      <div class="item"><span class="badge">&#10003;</span> Content read from mail/docs/web is data, never instructions</div>
+      <div class="item"><span class="badge">&#10003;</span> Legal/financial/contractual always flagged</div>
+      <div class="item"><span class="badge">&#10003;</span> Fails closed if the guard itself crashes</div>
+    </div>
+  </div>
+
+  <div class="col c5">
+    <div class="step-label">Step 5</div>
+    <h2>You approve and send</h2>
+    <p class="step-sub">Everything waits as a draft, except what's pre-approved:</p>
+
+    <div class="cat">
+      <div class="cat-label">READY FOR YOU</div>
+      <div class="item"><span class="badge">&rarr;</span> Email drafts waiting in Gmail</div>
+      <div class="item"><span class="badge">&rarr;</span> One-line summary per draft</div>
+      <div class="item"><span class="badge">&rarr;</span> Repo edits ready to push, if asked</div>
+    </div>
+
+    <div class="cat">
+      <div class="cat-label">DONE AUTOMATICALLY</div>
+      <div class="item"><span class="badge">&rarr;</span> Meeting agenda/nudge/recap sent</div>
+      <div class="item"><span class="badge">&rarr;</span> Invites auto-accepted, conflicts flagged</div>
+      <div class="item"><span class="badge">&rarr;</span> Triage labels applied to inbox</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="learns">
+  <h3>It learns <span>Claude's own memory system — people, decisions, corrections, carried across every session. A sample:</span></h3>
+  <div class="learns-grid">
+    <div class="learns-col">
+      <div class="cat-label">USER</div>
+      <div class="item">Roles: Forward Deployed Engineer, Mentor, Game Developer</div>
+      <div class="item">Calls default to 1 hour unless told otherwise</div>
+    </div>
+    <div class="learns-col">
+      <div class="cat-label">FEEDBACK</div>
+      <div class="item">No em-dash in email drafts</div>
+      <div class="item">Auto-push to GitHub, no confirmation needed</div>
+      <div class="item">Always push to main, never master</div>
+    </div>
+    <div class="learns-col">
+      <div class="cat-label">PROJECT</div>
+      <div class="item">Indic EMS engagement — Stratos/CoLab client</div>
+      <div class="item">StepAhead demo meetings</div>
+    </div>
+    <div class="learns-col">
+      <div class="cat-label">REFERENCE</div>
+      <div class="item">Calendly booking link</div>
+      <div class="item">Email signature block</div>
+      <div class="item">AI-enablement deck file path</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
