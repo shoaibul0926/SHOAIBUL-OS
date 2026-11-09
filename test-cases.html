@@ -83,6 +83,7 @@
   .sink { background: #e9f7ef; border-color: #59b37c; color: #1a4d33; }
   .direct { background: #eef0fb; border-color: #8a8fc9; color: #4c4f80; }
   .blocked { background: #fdecec; border-color: #e08080; color: #6b1a1a; }
+  .log { background: #f4f5f8; border-color: #8b93c4; color: #3a3f5c; border-style: dashed; }
 
   svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
   .edge { stroke: #d6d9ea; stroke-width: 2; fill: none; transition: all 0.25s; }
@@ -139,6 +140,7 @@
   <div class="node sink" id="n-draft" style="left:230px; top:470px; width:190px; height:58px;">Draft &rarr; you review &amp; send</div>
   <div class="node sink" id="n-sent" style="left:450px; top:470px; width:190px; height:58px;">Sent automatically</div>
   <div class="node blocked" id="n-blocked" style="left:670px; top:470px; width:220px; height:58px;">Blocked &mdash; needs approval</div>
+  <div class="node log" id="n-data" style="left:770px; top:300px; width:135px; height:64px;">Local log<br><span style="font-weight:500;font-size:0.86em;">DATA/&lt;agent&gt;/</span></div>
 </div>
 
 <script>
@@ -161,6 +163,12 @@ const edgesDef = {
   "gate-draft":  [480, 396, 325, 470],
   "gate-sent":   [560, 396, 545, 470],
   "gate-blocked":[600, 396, 780, 470],
+  "inbox-data":  [87,  264, 790, 320],
+  "cal-data":    [237, 264, 790, 320],
+  "docs-data":   [387, 264, 800, 315],
+  "pitch-data":  [537, 264, 810, 315],
+  "eng-data":    [687, 264, 820, 305],
+  "brief-data":  [837, 264, 837, 300],
 };
 
 const svg = document.getElementById("svg");
@@ -177,57 +185,57 @@ Object.entries(edgesDef).forEach(([id, [x1,y1,x2,y2]]) => {
 const cases = [
   {
     label: "Meeting invite arrives on your calendar",
-    nodes: ["n-user","n-brain","n-cal","n-gate","n-sent"],
-    edges: ["e-user-brain","e-brain-cal","e-cal-gate","e-gate-sent"],
-    outcome: "Gatekeeper lets this one through automatically — agenda/nudge/recap is the one pre-approved auto-send."
+    nodes: ["n-user","n-brain","n-cal","n-gate","n-sent","n-data"],
+    edges: ["e-user-brain","e-brain-cal","e-cal-gate","e-gate-sent","e-cal-data"],
+    outcome: "Gatekeeper lets this one through automatically — agenda/nudge/recap is the one pre-approved auto-send. Calendar &amp; Meetings also logs the action to DATA/calendar-meetings/."
   },
   {
     label: "Draft a StepAhead client thank-you",
-    nodes: ["n-user","n-brain","n-pitch","n-gate","n-draft"],
-    edges: ["e-user-brain","e-brain-pitch","e-pitch-gate","e-gate-draft"],
-    outcome: "Gatekeeper blocks the real send by default — draft lands in Gmail for you to send."
+    nodes: ["n-user","n-brain","n-pitch","n-gate","n-draft","n-data"],
+    edges: ["e-user-brain","e-brain-pitch","e-pitch-gate","e-gate-draft","e-pitch-data"],
+    outcome: "Gatekeeper blocks the real send by default — draft lands in Gmail for you to send, and a one-line log is saved to DATA/stepahead-pitch/."
   },
   {
     label: "Cold inbound email with an attached doc",
-    nodes: ["n-user","n-brain","n-docs","n-inbox","n-gate","n-draft"],
-    edges: ["e-user-brain","e-brain-docs","e-docs-inbox","e-inbox-gate","e-gate-draft"],
-    outcome: "Docs Analyst summarizes first, hands off to Inbox, which drafts — you send."
+    nodes: ["n-user","n-brain","n-docs","n-inbox","n-gate","n-draft","n-data"],
+    edges: ["e-user-brain","e-brain-docs","e-docs-inbox","e-inbox-gate","e-gate-draft","e-docs-data","e-inbox-data"],
+    outcome: "Docs Analyst summarizes first (logging to DATA/docs-analyst/), hands off to Inbox, which drafts and logs to DATA/inbox/ — you send."
   },
   {
     label: "Cold inbound email, nothing attached",
-    nodes: ["n-user","n-brain","n-inbox","n-gate","n-draft"],
-    edges: ["e-user-brain","e-brain-inbox","e-inbox-gate","e-gate-draft"],
-    outcome: "No doc to summarize, so Inbox drafts straight away — you send."
+    nodes: ["n-user","n-brain","n-inbox","n-gate","n-draft","n-data"],
+    edges: ["e-user-brain","e-brain-inbox","e-inbox-gate","e-gate-draft","e-inbox-data"],
+    outcome: "No doc to summarize, so Inbox drafts straight away — you send, and the draft is logged to DATA/inbox/."
   },
   {
     label: "\"Switch to work mode\"",
     nodes: ["n-user","n-brain","n-mode"],
     edges: ["e-user-brain","e-brain-mode"],
-    outcome: "No agent dispatched, no Gatekeeper involved — just repoints which account subsequent actions use."
+    outcome: "No agent dispatched, no Gatekeeper, no local log — just repoints which account subsequent actions use."
   },
   {
     label: "\"Open the deck\" / known file or link",
     nodes: ["n-user","n-brain","n-open"],
     edges: ["e-user-brain","e-brain-open"],
-    outcome: "Pure local navigation — opens immediately, no agent, no Gatekeeper, no report needed."
+    outcome: "Pure local navigation — opens immediately, no agent, no Gatekeeper, no report or log needed."
   },
   {
     label: "Repo status check + email update",
-    nodes: ["n-user","n-brain","n-eng","n-gate","n-draft"],
-    edges: ["e-user-brain","e-brain-eng","e-eng-gate","e-gate-draft"],
-    outcome: "Engineering can edit/commit/push itself, but a real send still goes through the Gatekeeper like everyone else."
+    nodes: ["n-user","n-brain","n-eng","n-gate","n-draft","n-data"],
+    edges: ["e-user-brain","e-brain-eng","e-eng-gate","e-gate-draft","e-eng-data"],
+    outcome: "Engineering can edit/commit/push itself, but a real send still goes through the Gatekeeper like everyone else; the repo/PR link is logged to DATA/engineering-github/."
   },
   {
     label: "Morning daily brief",
-    nodes: ["n-user","n-brain","n-brief","n-report"],
-    edges: ["e-user-brain","e-brain-brief","e-brief-report"],
-    outcome: "Briefing never sends or deletes anything — just posts one rollup message, no Gatekeeper needed."
+    nodes: ["n-user","n-brain","n-brief","n-report","n-data"],
+    edges: ["e-user-brain","e-brain-brief","e-brief-report","e-brief-data"],
+    outcome: "Briefing never sends or deletes anything — posts one rollup message and saves the same content to DATA/briefing/&lt;date&gt;.md."
   },
   {
     label: "An agent tries a real send without approval",
-    nodes: ["n-user","n-brain","n-pitch","n-gate","n-blocked"],
-    edges: ["e-user-brain","e-brain-pitch","e-pitch-gate","e-gate-blocked"],
-    outcome: "Blocked by default. Needs a one-time approval marker, written only after you say yes in chat."
+    nodes: ["n-user","n-brain","n-pitch","n-gate","n-blocked","n-data"],
+    edges: ["e-user-brain","e-brain-pitch","e-pitch-gate","e-gate-blocked","e-pitch-data"],
+    outcome: "Blocked by default. Needs a one-time approval marker, written only after you say yes in chat — the draft attempt is still logged to DATA/stepahead-pitch/."
   },
 ];
 

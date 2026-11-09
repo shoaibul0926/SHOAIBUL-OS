@@ -152,15 +152,25 @@ graph TB
   GATE -->|draft| YOU["You review &amp; send it"]
   GATE -->|blocked by default| SENT["Sent &mdash; only after<br/>your explicit yes"]
 
+  DATA[("Local log<br/>DATA/&lt;agent&gt;/")]
+  INBOX -.log.-> DATA
+  CAL -.log.-> DATA
+  DOCS -.log.-> DATA
+  PITCH -.log.-> DATA
+  ENG -.log.-> DATA
+  BRIEF -.log.-> DATA
+
   classDef acct fill:#eaf2ff,stroke:#6f9ceb,color:#17315c,stroke-width:1.5px;
   classDef agent fill:#f3f0ff,stroke:#9b87d9,color:#2e2458,stroke-width:1.5px;
   classDef gate fill:#fff4e5,stroke:#e0a339,color:#5c3b00,stroke-width:1.5px;
   classDef sink fill:#e9f7ef,stroke:#59b37c,color:#1a4d33,stroke-width:1.5px;
+  classDef log fill:#f4f5f8,stroke:#8b93c4,color:#3a3f5c,stroke-width:1.5px,stroke-dasharray: 3 2;
 
   class A1 acct;
   class INBOX,CAL,DOCS,PITCH,ENG,BRIEF,MEM agent;
   class GATE gate;
   class YOU,SENT sink;
+  class DATA log;
 </pre>
 </div>
 
@@ -169,9 +179,10 @@ graph TB
   <span><span class="dot" style="background:#f3f0ff;border:1px solid #9b87d9;"></span> Agent</span>
   <span><span class="dot" style="background:#fff4e5;border:1px solid #e0a339;"></span> Gatekeeper</span>
   <span><span class="dot" style="background:#e9f7ef;border:1px solid #59b37c;"></span> Outcome</span>
+  <span><span class="dot" style="background:#f4f5f8;border:1px dashed #8b93c4;"></span> Local log</span>
 </div>
 
-<footer>Shoaibul-OS &middot; personal AI chief of staff</footer>
+<footer>Shoaibul-OS &middot; personal AI chief of staff &middot; last updated 2026-11-09</footer>
 
 <script>
   mermaid.initialize({
